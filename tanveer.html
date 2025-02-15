@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanveer Mehra</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Old+Standard+TT&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Old Standard TT', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rain {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .drop {
+            position: absolute;
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, currentColor);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-120vh);
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh);
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .splash {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: splash 0.5s linear forwards;
+        }
+
+        @keyframes splash {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+                border: 2px solid #fff;
+                filter: hue-rotate(0deg);
+            }
+            100% {
+                width: 100px;
+                height: 100px;
+                opacity: 0;
+                border: 0px solid #fff;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid white;
+            box-shadow: 5px 5px 0px white;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;  /* This creates equal spacing between all icons */
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            color: #cccccc;
+        }
+
+        .burst {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            animation: burst 0.5s linear forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+                border: 2px solid;
+                transform: scale(0);
+            }
+            100% {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+                border: 0px solid;
+                transform: scale(1.5);
+            }
+        }
+
+        .popup-text {
+            position: absolute;
+            pointer-events: none;
+            color: white;
+            font-family: 'Old Standard TT', serif;
+            animation: textPopup 2s ease-out forwards;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes textPopup {
+            0% {
+                opacity: 0;
+                font-size: 20px;
+                transform: translate(-50%, -50%);
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+                font-size: 40px;
+            }
+            100% {
+                opacity: 0;
+                font-size: 50px;
+                transform: translate(-50%, -100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background rain element -->
+    <div class="rain"></div> 
+
+    <div class="container">
+        <h1>Tanveer Mehra</h1>
+        <h2>degenerate</h2>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/mehratanveer/" target="_blank" title="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/mehratanveer6" target="_blank" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://x.com/mehratanveer6" target="_blank" title="X (Twitter)">
+                <i class="fab fa-x"></i>
+            </a>
+            <a href="mailto:tanmehra7@gmail.com" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const rain = document.querySelector('.rain');
+        
+        function createDrop() {
+            const drop = document.createElement('div');
+            drop.className = 'drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+            drop.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            rain.appendChild(drop);
+            
+            // Remove drop after animation
+            setTimeout(() => {
+                drop.remove();
+            }, 2500);
+        }
+
+        // Create initial rain drops
+        setInterval(createDrop, 20);
+
+        // Updated click handler for text popup
+        document.addEventListener('click', (e) => {
+            const text = document.createElement('div');
+            text.className = 'popup-text';
+            text.textContent = 'degenerate';
+            text.style.left = e.clientX + 'px';
+            text.style.top = e.clientY + 'px';
+            document.body.appendChild(text);
+            
+            // Remove text after animation
+            setTimeout(() => {
+                text.remove();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
