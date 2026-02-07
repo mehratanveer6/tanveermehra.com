@@ -3,272 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanveer Mehra</title>
-    <!-- Add Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Add Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Old+Standard+TT&display=swap" rel="stylesheet">
-    <!-- Add custom styles -->
+    <title>tanveer mehra</title>
     <link rel="stylesheet" href="./style.css">
-    <style>
-        body {
-            font-family: 'Old Standard TT', serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: black;
-            color: white;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .rain {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .drop {
-            position: absolute;
-            width: 6px;
-            height: 60px;
-            background: linear-gradient(to bottom, transparent, currentColor);
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-120vh);
-                filter: hue-rotate(0deg);
-            }
-            100% {
-                transform: translateY(100vh);
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        .splash {
-            position: absolute;
-            pointer-events: none;
-            border-radius: 50%;
-            animation: splash 0.5s linear forwards;
-        }
-
-        @keyframes splash {
-            0% {
-                width: 0;
-                height: 0;
-                opacity: 1;
-                border: 2px solid #fff;
-                filter: hue-rotate(0deg);
-            }
-            100% {
-                width: 100px;
-                height: 100px;
-                opacity: 0;
-                border: 0px solid #fff;
-                filter: hue-rotate(360deg);
-            }
-        }
-
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 2px solid white;
-            box-shadow: 5px 5px 0px white;
-            z-index: 1;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 48px;
-            margin-bottom: 10px;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        h2 {
-            font-size: 24px;
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .social-links {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;  /* This creates equal spacing between all icons */
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 24px;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-3px);
-            color: #cccccc;
-        }
-
-        .nav-links {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            padding: 5px 15px;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .nav-links a:hover {
-            border-color: currentColor;
-            animation: rainbow 3s linear infinite;
-        }
-
-        @keyframes rainbow {
-            0% { color: #ff0000; border-color: #ff0000; }
-            17% { color: #ff8000; border-color: #ff8000; }
-            33% { color: #ffff00; border-color: #ffff00; }
-            50% { color: #00ff00; border-color: #00ff00; }
-            67% { color: #0000ff; border-color: #0000ff; }
-            83% { color: #8000ff; border-color: #8000ff; }
-            100% { color: #ff0000; border-color: #ff0000; }
-        }
-
-        .burst {
-            position: absolute;
-            pointer-events: none;
-            border-radius: 50%;
-            animation: burst 0.5s linear forwards;
-        }
-
-        @keyframes burst {
-            0% {
-                width: 0;
-                height: 0;
-                opacity: 1;
-                border: 2px solid;
-                transform: scale(0);
-            }
-            100% {
-                width: 200px;
-                height: 200px;
-                opacity: 0;
-                border: 0px solid;
-                transform: scale(1.5);
-            }
-        }
-
-        .popup-text {
-            position: absolute;
-            pointer-events: none;
-            color: white;
-            font-family: 'Old Standard TT', serif;
-            animation: textPopup 2s ease-out forwards;
-            opacity: 0;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes textPopup {
-            0% {
-                opacity: 0;
-                font-size: 20px;
-                transform: translate(-50%, -50%);
-            }
-            20% {
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-                font-size: 40px;
-            }
-            100% {
-                opacity: 0;
-                font-size: 50px;
-                transform: translate(-50%, -100%);
-            }
-        }
-    </style>
 </head>
 <body>
-    <!-- Background rain element -->
-    <div class="rain"></div> 
+    <canvas id="canvas"></canvas>
+    
+    <main>
+        <header>
+            <h1 id="name">tanveer mehra</h1>
+            <p class="tagline">developer / dreamer / degenerate</p>
+        </header>
 
-    <div class="container">
-        <h1>Tanveer Mehra</h1>
-        <h2>degenerate</h2>
-        <div class="social-links">
-            <a href="https://linkedin.com/in/mehratanveer/" target="_blank" title="LinkedIn">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/mehratanveer6" target="_blank" title="GitHub">
-                <i class="fab fa-github"></i>
-            </a>
-            <a href="https://x.com/mehratanveer6" target="_blank" title="X (Twitter)">
-                <i class="fab fa-x"></i>
-            </a>
-            <a href="mailto:tanmehra7@gmail.com" title="Email">
-                <i class="fas fa-envelope"></i>
-            </a>
-        </div>
-        <div class="nav-links">
-            <a href="./about.html">about</a>
-            <a href="./projects.html">projects</a>
-            <a href="./research.html">research</a>
-            <a href="./newsletter.html">newsletter</a>
-        </div>
-    </div>
+        <nav>
+            <a href="./about.html" class="nav-link">about</a>
+            <a href="./projects.html" class="nav-link">projects</a>
+            <a href="./research.html" class="nav-link">research</a>
+            <a href="./newsletter.html" class="nav-link">newsletter</a>
+        </nav>
+
+        <section class="links">
+            <a href="https://github.com/mehratanveer6" target="_blank">github</a>
+            <a href="https://linkedin.com/in/mehratanveer/" target="_blank">linkedin</a>
+            <a href="https://x.com/mehratanveer6" target="_blank">x</a>
+            <a href="mailto:tanmehra7@gmail.com">email</a>
+        </section>
+
+        <footer>
+            <p id="time"></p>
+        </footer>
+    </main>
 
     <script>
-        const rain = document.querySelector('.rain');
-        
-        function createDrop() {
-            const drop = document.createElement('div');
-            drop.className = 'drop';
-            drop.style.left = Math.random() * 100 + '%';
-            drop.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
-            drop.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            rain.appendChild(drop);
+        // Time display
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true,
+                timeZone: 'Asia/Kolkata'
+            };
+            const timeStr = now.toLocaleTimeString('en-US', options);
+            document.getElementById('time').textContent = 'time in chandigarh - ' + timeStr + ' IST';
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Interactive particle field
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
             
-            // Remove drop after animation
-            setTimeout(() => {
-                drop.remove();
-            }, 2500);
+            for (let i = 0; i < 3; i++) {
+                particles.push(new Particle(mouse.x, mouse.y));
+            }
+        });
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.life = 100;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 2;
+                if (this.size > 0.1) this.size -= 0.05;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(212, 165, 165, ${this.life / 100})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        // Create initial rain drops
-        setInterval(createDrop, 20);
-
-        // Updated click handler for text popup
-        document.addEventListener('click', (e) => {
-            const text = document.createElement('div');
-            text.className = 'popup-text';
-            text.textContent = 'degenerate';
-            text.style.left = e.clientX + 'px';
-            text.style.top = e.clientY + 'px';
-            document.body.appendChild(text);
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Remove text after animation
-            setTimeout(() => {
-                text.remove();
-            }, 2000);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Name hover effect - split and animate letters
+        const nameEl = document.getElementById('name');
+        const nameText = nameEl.textContent;
+        nameEl.innerHTML = nameText.split('').map(char => 
+            char === ' ' ? '<span class="space"> </span>' : 
+            `<span class="letter">${char}</span>`
+        ).join('');
+
+        const letters = nameEl.querySelectorAll('.letter');
+        
+        nameEl.addEventListener('mouseenter', () => {
+            letters.forEach((letter, i) => {
+                setTimeout(() => {
+                    letter.style.transform = `translateY(-10px)`;
+                }, i * 30);
+                setTimeout(() => {
+                    letter.style.transform = `translateY(0)`;
+                }, i * 30 + 200);
+            });
         });
     </script>
 </body>

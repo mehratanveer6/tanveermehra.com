@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>newsletter / tanveer mehra</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .newsletter-form {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .newsletter-form::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            to { left: 100%; }
+        }
+        
+        .form-group {
+            position: relative;
+        }
+        
+        .email-input {
+            transition: all 0.3s ease;
+        }
+        
+        .email-input:focus {
+            transform: scale(1.02);
+        }
+        
+        .subscribe-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscribe-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        
+        .subscribe-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .subscribe-btn span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .success-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--accent);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
+            box-shadow: 0 10px 40px rgba(212, 165, 165, 0.4);
+        }
+        
+        .success-message.show {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        
+        .item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: itemFadeIn 0.6s ease forwards;
+        }
+        
+        .item:nth-child(1) { animation-delay: 0.1s; }
+        .item:nth-child(2) { animation-delay: 0.2s; }
+        .item:nth-child(3) { animation-delay: 0.3s; }
+        .item:nth-child(4) { animation-delay: 0.4s; }
+        
+        @keyframes itemFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>tanveer mehra</h1>
+            <p class="tagline">newsletter</p>
+        </header>
+
+        <section class="content">
+            <p>
+                every so often, i share thoughts, discoveries, and lessons from my journey 
+                through code, research, and building things. think of it as getting a note 
+                from a friend — personal, thoughtful, and hopefully worth your time.
+            </p>
+
+            <div class="newsletter-form">
+                <div class="success-message" id="success-msg">✓ thanks for subscribing!</div>
+                
+                <h3>subscribe</h3>
+                <p>get occasional updates when i have something worth sharing. no spam, just quality content.</p>
+                <div class="form-group">
+                    <input type="email" placeholder="your@email.com" id="email-input" class="email-input">
+                    <button onclick="handleSubscribe()"><span>subscribe</span></button>
+                </div>
+                <p class="privacy">your privacy matters. unsubscribe anytime.</p>
+            </div>
+
+            <h2>recent posts</h2>
+
+            <div class="item">
+                <h3>on building in public</h3>
+                <p class="meta">january 15, 2026</p>
+                <p>
+                    thoughts on vulnerability, authenticity, and why sharing your work matters 
+                    more than you think. building in public isn't just about showing your code — 
+                    it's about showing your process, your failures, and your growth.
+                </p>
+            </div>
+
+            <div class="item">
+                <h3>the year in review</h3>
+                <p class="meta">december 28, 2025</p>
+                <p>
+                    reflections on growth, failures, and unexpected discoveries from 2025. 
+                    what worked, what didn't, and what i'm carrying into the new year.
+                </p>
+            </div>
+
+            <div class="item">
+                <h3>creativity in constraints</h3>
+                <p class="meta">november 10, 2025</p>
+                <p>
+                    why limitations often lead to the most innovative solutions. exploring 
+                    the paradox of how restriction breeds creativity, both in code and in life.
+                </p>
+            </div>
+
+            <div class="item">
+                <h3>the tools i use</h3>
+                <p class="meta">october 22, 2025</p>
+                <p>
+                    a rundown of my development setup, favorite tools, and workflows that 
+                    help me stay productive. always evolving, never perfect.
+                </p>
+            </div>
+        </section>
+
+        <div class="back">
+            <a href="./index.html">← home</a>
+        </div>
+
+        <footer>
+            <p id="time"></p>
+        </footer>
+    </main>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true,
+                timeZone: 'Asia/Kolkata'
+            };
+            const timeStr = now.toLocaleTimeString('en-US', options);
+            document.getElementById('time').textContent = 'time in chandigarh - ' + timeStr + ' IST';
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        function handleSubscribe() {
+            const input = document.getElementById('email-input');
+            const email = input.value.trim();
+            const successMsg = document.getElementById('success-msg');
+            
+            if (email && email.includes('@')) {
+                // Show success animation
+                successMsg.classList.add('show');
+                input.value = '';
+                
+                // Hide after 2 seconds
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                }, 2000);
+            } else {
+                // Shake animation for invalid email
+                input.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    input.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        document.getElementById('email-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSubscribe();
+            }
+        });
+        
+        // Add floating particles effect on hover
+        const form = document.querySelector('.newsletter-form');
+        
+        form.addEventListener('mouseenter', () => {
+            form.style.transform = 'translateY(-2px)';
+        });
+        
+        form.addEventListener('mouseleave', () => {
+            form.style.transform = 'translateY(0)';
+        });
+    </script>
+</body>
+</html>
