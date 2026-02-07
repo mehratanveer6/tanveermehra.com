@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Add Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Old+Standard+TT&display=swap" rel="stylesheet">
+    <!-- Add custom styles -->
+    <link rel="stylesheet" href="./style.css">
     <style>
         body {
             font-family: 'Old Standard TT', serif;
@@ -119,6 +121,37 @@
             color: #cccccc;
         }
 
+        .nav-links {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-color: currentColor;
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff0000; border-color: #ff0000; }
+            17% { color: #ff8000; border-color: #ff8000; }
+            33% { color: #ffff00; border-color: #ffff00; }
+            50% { color: #00ff00; border-color: #00ff00; }
+            67% { color: #0000ff; border-color: #0000ff; }
+            83% { color: #8000ff; border-color: #8000ff; }
+            100% { color: #ff0000; border-color: #ff0000; }
+        }
+
         .burst {
             position: absolute;
             pointer-events: none;
@@ -194,6 +227,12 @@
             <a href="mailto:tanmehra7@gmail.com" title="Email">
                 <i class="fas fa-envelope"></i>
             </a>
+        </div>
+        <div class="nav-links">
+            <a href="./about.html">about</a>
+            <a href="./projects.html">projects</a>
+            <a href="./research.html">research</a>
+            <a href="./newsletter.html">newsletter</a>
         </div>
     </div>
 

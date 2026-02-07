@@ -1,0 +1,170 @@
+/* Base Styles */
+:root {
+    --space-black: #000000;
+    --star-white: #ffffff;
+    --planet-blue: #0066ff;
+    --planet-red: #ff3300;
+    --planet-purple: #9933ff;
+    --planet-green: #33ff33;
+    --spaceship-gray: #666666;
+}
+
+body {
+    background: var(--space-black);
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Press Start 2P', cursive;
+    color: var(--star-white);
+}
+
+/* Galaxy Background */
+.galaxy {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at calc(random() * 100%) calc(random() * 100%),
+        var(--star-white) 50%, transparent 50%);
+    background-size: 200px 200px;
+    animation: twinkle 1s steps(2) infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.5; }
+}
+
+/* Planet Navigation */
+.planet {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s steps(3);
+    animation: orbit 20s linear infinite;
+    image-rendering: pixelated;
+}
+
+.planet-about {
+    background: var(--planet-blue);
+    box-shadow: inset -8px -8px 0 rgba(0,0,0,0.5);
+    animation-delay: -5s;
+}
+
+.planet-projects {
+    background: var(--planet-red);
+    box-shadow: inset -8px -8px 0 rgba(0,0,0,0.5);
+    animation-delay: -10s;
+}
+
+.planet-research {
+    background: var(--planet-purple);
+    box-shadow: inset -8px -8px 0 rgba(0,0,0,0.5);
+    animation-delay: -15s;
+}
+
+.planet-newsletter {
+    background: var(--planet-green);
+    box-shadow: inset -8px -8px 0 rgba(0,0,0,0.5);
+    animation-delay: -20s;
+}
+
+.planet:hover {
+    transform: scale(1.2);
+    filter: brightness(1.2);
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+}
+
+/* Spaceships */
+.spaceship {
+    position: absolute;
+    width: 32px;
+    height: 16px;
+    background: var(--spaceship-gray);
+    clip-path: polygon(0% 50%, 20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%);
+    animation: fly 8s linear infinite;
+}
+
+.falcon {
+    width: 48px;
+    height: 32px;
+    background: var(--spaceship-gray);
+    clip-path: polygon(0% 50%, 40% 0%, 90% 0%, 100% 50%, 90% 100%, 40% 100%);
+    animation: flyFalcon 12s linear infinite;
+}
+
+.warship {
+    width: 40px;
+    height: 24px;
+    background: var(--spaceship-gray);
+    clip-path: polygon(0% 50%, 30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%);
+    animation: flyWarship 10s linear infinite;
+}
+
+@keyframes fly {
+    from { 
+        transform: translateX(-100vw) translateY(var(--y, 20vh));
+    }
+    to { 
+        transform: translateX(100vw) translateY(var(--y, 20vh));
+    }
+}
+
+@keyframes flyFalcon {
+    from {
+        transform: translateX(100vw) translateY(var(--y, 40vh)) rotate(-15deg);
+    }
+    to {
+        transform: translateX(-100vw) translateY(var(--y, 40vh)) rotate(-15deg);
+    }
+}
+
+@keyframes flyWarship {
+    from {
+        transform: translateX(-100vw) translateY(var(--y, 60vh)) rotate(15deg);
+    }
+    to {
+        transform: translateX(100vw) translateY(var(--y, 60vh)) rotate(15deg);
+    }
+}
+
+/* Container for Title */
+.container {
+    position: relative;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    border: 4px solid var(--star-white);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+    image-rendering: pixelated;
+}
+
+h1 {
+    color: var(--star-white);
+    text-shadow: 4px 4px var(--planet-blue);
+    animation: pulse 2s steps(4) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Social Links */
+.social-icon {
+    color: var(--star-white);
+    font-size: 24px;
+    margin: 0 16px;
+    transition: all 0.2s steps(2);
+}
+
+.social-icon:hover {
+    color: var(--planet-purple);
+    transform: scale(1.2) rotate(15deg);
+}
