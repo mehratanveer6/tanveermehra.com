@@ -3,139 +3,836 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tanveer mehra</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>Tanveer Mehra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #080808;
+            --fg: #f0ede8;
+            --dim: #555;
+            --accent: #c8b89a;
+            --border: #1a1a1a;
+            --hover-bg: #111;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── CURSOR ── */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button { cursor: none !important; }
+        }
+
+        .cur {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        .cur-dot {
+            width: 8px; height: 8px;
+            background: var(--fg);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            transition: transform 0.1s ease;
+        }
+        .cur-ring {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(240,237,232,0.4);
+            border-radius: 50%;
+            transform: translate(-50%,-50%);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+        }
+        .cur-ring.hovered {
+            width: 60px; height: 60px;
+            border-color: rgba(200,184,154,0.6);
+        }
+        @media (pointer: coarse) { .cur { display: none; } }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 48px;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.4s ease, background 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        nav.scrolled {
+            border-color: var(--border);
+            background: rgba(8,8,8,0.85);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 20px;
+            color: var(--fg);
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--dim);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--fg); }
+
+        .nav-status {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 48px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -52%);
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(120px, 18vw, 280px);
+            color: transparent;
+            -webkit-text-stroke: 1px #1c1c1c;
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: -0.04em;
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        }
+
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(64px, 9vw, 130px);
+            line-height: 0.92;
+            letter-spacing: -0.03em;
+            margin-bottom: 36px;
+            opacity: 0;
+            animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+
+        .hero-name em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            opacity: 0;
+            animation: riseIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+        }
+
+        .hero-bio {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--dim);
+            max-width: 400px;
+            font-weight: 400;
+        }
+
+        .hero-scroll {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .hero-scroll::before {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 60px;
+            background: var(--dim);
+            animation: slideDown 1.5s ease infinite;
+        }
+        @keyframes slideDown {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 48px;
+        }
+
+        /* ── PROJECTS LIST ── */
+        .projects-section {
+            padding: 0 48px 160px;
+        }
+
+        .projects-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 64px 0 48px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0;
+        }
+
+        .section-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .section-count {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+        }
+
+        /* Project rows */
+        .project-row {
+            display: grid;
+            grid-template-columns: 64px 1fr auto;
+            align-items: center;
+            gap: 40px;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--fg);
+            position: relative;
+            overflow: hidden;
+            transition: padding-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: padding-left;
+        }
+
+        .project-row::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--hover-bg);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 0;
+        }
+
+        .project-row:hover::before { transform: scaleX(1); }
+        .project-row:hover { padding-left: 16px; }
+
+        .project-row > * { position: relative; z-index: 1; }
+
+        .proj-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--dim);
+            font-weight: 300;
+        }
+
+        .proj-main {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .proj-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(22px, 3vw, 36px);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            transition: color 0.3s ease;
+        }
+
+        .project-row:hover .proj-title { color: var(--accent); }
+
+        .proj-desc {
+            font-size: 13px;
+            color: var(--dim);
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 560px;
+        }
+
+        .proj-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .proj-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .proj-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            color: var(--dim);
+            text-transform: uppercase;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .project-row:hover .proj-tag {
+            border-color: #3a3a3a;
+            color: #888;
+        }
+
+        .proj-year {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: #333;
+        }
+
+        .proj-arrow {
+            font-size: 20px;
+            color: var(--dim);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+        }
+        .project-row:hover .proj-arrow {
+            transform: translate(4px, -4px);
+            color: var(--fg);
+        }
+
+        /* ── ABOUT STRIP ── */
+        .about-strip {
+            padding: 120px 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .about-left {}
+
+        .about-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .about-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(24px, 3.5vw, 44px);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--fg);
+        }
+
+        .about-text em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .about-right {}
+
+        .about-body {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--dim);
+            margin-bottom: 32px;
+        }
+
+        .about-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-chip {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            color: #555;
+            letter-spacing: 0.06em;
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .skill-chip:hover {
+            border-color: #333;
+            color: var(--fg);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 64px 48px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-left {}
+
+        .footer-big {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(32px, 5vw, 60px);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .footer-big a {
+            color: var(--fg);
+            text-decoration: none;
+            border-bottom: 1px solid var(--dim);
+            transition: border-color 0.3s, color 0.3s;
+        }
+        .footer-big a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .footer-links-row {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-links-row a {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--dim);
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            transition: color 0.3s;
+        }
+        .footer-links-row a:hover { color: var(--fg); }
+
+        .footer-right {
+            text-align: right;
+        }
+
+        .footer-meta {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: #333;
+            line-height: 2;
+        }
+
+        /* ── MARQUEE ── */
+        .marquee-wrap {
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marqueeScroll 20s linear infinite;
+        }
+
+        .marquee-track span {
+            font-family: 'DM Serif Display', serif;
+            font-size: 14px;
+            color: #2a2a2a;
+            white-space: nowrap;
+            padding: 0 40px;
+            letter-spacing: -0.01em;
+        }
+
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ── PAGE TRANSITION ── */
+        .page-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--fg);
+            z-index: 9998;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            pointer-events: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 24px 24px; }
+            .nav-links { gap: 20px; }
+            .nav-status { display: none; }
+            .hero { padding: 0 24px 60px; }
+            .hero-bg-text { font-size: 80px; }
+            .hero-bottom { flex-direction: column; align-items: flex-start; gap: 40px; }
+            .hero-scroll { display: none; }
+            .divider, .projects-section, .about-strip, footer { padding-left: 24px; padding-right: 24px; }
+            .about-strip { grid-template-columns: 1fr; gap: 48px; }
+            .project-row { grid-template-columns: 40px 1fr; }
+            .proj-right { display: none; }
+            footer { flex-direction: column; align-items: flex-start; gap: 40px; }
+        }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    
-    <main>
-        <header>
-            <h1 id="name">tanveer mehra</h1>
-            <p class="tagline">developer / dreamer / degenerate</p>
-        </header>
 
-        <nav>
-            <a href="./about.html" class="nav-link">about</a>
-            <a href="./projects.html" class="nav-link">projects</a>
-            <a href="./research.html" class="nav-link">research</a>
-            <a href="./newsletter.html" class="nav-link">newsletter</a>
-        </nav>
+<!-- Custom Cursor -->
+<div class="cur" id="curDot"><div class="cur-dot"></div></div>
+<div class="cur" id="curRing"><div class="cur-ring" id="ringEl"></div></div>
 
-        <section class="links">
-            <a href="https://github.com/mehratanveer6" target="_blank">github</a>
-            <a href="https://linkedin.com/in/mehratanveer/" target="_blank">linkedin</a>
-            <a href="https://x.com/mehratanveer6" target="_blank">x</a>
-            <a href="mailto:tanmehra7@gmail.com">email</a>
-        </section>
+<!-- Page Transition Overlay -->
+<div class="page-overlay" id="overlay"></div>
 
-        <footer>
-            <p id="time"></p>
-        </footer>
-    </main>
+<!-- Navigation -->
+<nav id="nav">
+    <a href="./index.html" class="logo">tm.</a>
+    <div class="nav-right">
+        <ul class="nav-links">
+            <li><a href="./projects.html">Work</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            <span id="localTime">—</span>
+        </div>
+    </div>
+</nav>
 
-    <script>
-        // Time display
-        function updateTime() {
-            const now = new Date();
-            const options = { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: true,
-                timeZone: 'Asia/Kolkata'
-            };
-            const timeStr = now.toLocaleTimeString('en-US', options);
-            document.getElementById('time').textContent = 'time in chandigarh - ' + timeStr + ' IST';
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-bg-text" id="bgText">TANVEER</div>
+    <p class="hero-eyebrow">Engineer / Builder / Creative</p>
+    <h1 class="hero-name">Tanveer<br><em>Mehra.</em></h1>
+    <div class="hero-bottom">
+        <p class="hero-bio">I build web experiences that make people say <em>"woah."</em> Based in Chandigarh — blending code, creativity, and a deep curiosity for what's next.</p>
+        <div class="hero-scroll">Scroll</div>
+    </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+    <div class="marquee-track">
+        <span>Rust · Go · TypeScript · Python · React · WebGL · Distributed Systems · Machine Learning · Creative Code · Open Source</span>
+        <span>Rust · Go · TypeScript · Python · React · WebGL · Distributed Systems · Machine Learning · Creative Code · Open Source</span>
+    </div>
+</div>
+
+<!-- Projects -->
+<section class="projects-section">
+    <div class="projects-header reveal">
+        <span class="section-label">Selected Work</span>
+        <span class="section-count">06 Projects</span>
+    </div>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">001</span>
+        <div class="proj-main">
+            <span class="proj-title">Quantum Task Scheduler</span>
+            <span class="proj-desc">Quantum-inspired algorithms for resource allocation in distributed systems.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">Rust</span>
+                <span class="proj-tag">Distributed</span>
+            </div>
+            <span class="proj-year">2026</span>
+        </div>
+    </a>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">002</span>
+        <div class="proj-main">
+            <span class="proj-title">Minimalist Note CLI</span>
+            <span class="proj-desc">Lightweight cross-device note sync from the terminal. Fast, lean, no bloat.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">Go</span>
+                <span class="proj-tag">CLI</span>
+            </div>
+            <span class="proj-year">2025</span>
+        </div>
+    </a>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">003</span>
+        <div class="proj-main">
+            <span class="proj-title">Generative Art Playground</span>
+            <span class="proj-desc">Interactive WebGL experiments at the intersection of code and creativity.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">JavaScript</span>
+                <span class="proj-tag">WebGL</span>
+            </div>
+            <span class="proj-year">2025</span>
+        </div>
+    </a>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">004</span>
+        <div class="proj-main">
+            <span class="proj-title">ML Model Compression</span>
+            <span class="proj-desc">Compressing ML models for edge deployment without meaningful accuracy loss.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">Python</span>
+                <span class="proj-tag">ML</span>
+            </div>
+            <span class="proj-year">2024</span>
+        </div>
+    </a>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">005</span>
+        <div class="proj-main">
+            <span class="proj-title">Real-time Analytics Dashboard</span>
+            <span class="proj-desc">High-performance live data visualization built for scale.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">React</span>
+                <span class="proj-tag">WebSocket</span>
+            </div>
+            <span class="proj-year">2024</span>
+        </div>
+    </a>
+
+    <a class="project-row reveal" href="./projects.html">
+        <span class="proj-num">006</span>
+        <div class="proj-main">
+            <span class="proj-title">Blockchain Explorer</span>
+            <span class="proj-desc">Modern explorer with advanced analytics for complex on-chain data.</span>
+        </div>
+        <div class="proj-right">
+            <div class="proj-tags">
+                <span class="proj-tag">TypeScript</span>
+                <span class="proj-tag">GraphQL</span>
+            </div>
+            <span class="proj-year">2024</span>
+        </div>
+    </a>
+</section>
+
+<!-- About -->
+<div class="about-strip">
+    <div class="about-left reveal">
+        <p class="about-label">[ about ]</p>
+        <p class="about-text">A developer who finds beauty in <em>well-crafted code</em> and the details no one else notices.</p>
+    </div>
+    <div class="about-right reveal">
+        <p class="about-body">Based in Chandigarh. I spend my days building digital experiences, nights exploring what's possible at the frontier of tech, and every moment in between wondering what to build next.<br><br>Currently open to freelance and collaboration.</p>
+        <div class="about-skills">
+            <span class="skill-chip">Rust</span>
+            <span class="skill-chip">Go</span>
+            <span class="skill-chip">TypeScript</span>
+            <span class="skill-chip">Python</span>
+            <span class="skill-chip">React</span>
+            <span class="skill-chip">Three.js</span>
+            <span class="skill-chip">Distributed Systems</span>
+            <span class="skill-chip">Machine Learning</span>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-left">
+        <p class="footer-big"><a href="mailto:tanmehra7@gmail.com">Let's talk →</a></p>
+        <div class="footer-links-row">
+            <a href="https://github.com/mehratanveer6" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/mehratanveer/" target="_blank">LinkedIn</a>
+            <a href="https://x.com/mehratanveer6" target="_blank">X / Twitter</a>
+            <a href="./contact.html">Contact</a>
+        </div>
+    </div>
+    <div class="footer-right">
+        <p class="footer-meta">Tanveer Mehra<br>© 2026<br>Chandigarh, IN</p>
+    </div>
+</footer>
+
+<script>
+// ── CURSOR ──
+(function() {
+    const dot = document.getElementById('curDot');
+    const ring = document.getElementById('curRing');
+    const ringEl = document.getElementById('ringEl');
+    let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    function tick() {
+        dx += (mx - dx) * 0.35;
+        dy += (my - dy) * 0.35;
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        dot.style.left = dx + 'px'; dot.style.top = dy + 'px';
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(tick);
+    }
+    tick();
+
+    document.querySelectorAll('a, button').forEach(el => {
+        el.addEventListener('mouseenter', () => ringEl.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ringEl.classList.remove('hovered'));
+    });
+})();
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── TIME ──
+function updateTime() {
+    const el = document.getElementById('localTime');
+    if (el) el.textContent = new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Kolkata'
+    }) + ' IST';
+}
+updateTime();
+setInterval(updateTime, 10000);
+
+// ── PARALLAX BG TEXT ──
+const bgText = document.getElementById('bgText');
+window.addEventListener('mousemove', e => {
+    if (!bgText) return;
+    const xP = (e.clientX / window.innerWidth - 0.5) * 20;
+    const yP = (e.clientY / window.innerHeight - 0.5) * 10;
+    bgText.style.transform = `translate(calc(-50% + ${xP}px), calc(-52% + ${yP}px))`;
+}, { passive: true });
+
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+            // Stagger based on index among siblings
+            const delay = entry.target.classList.contains('project-row')
+                ? Array.from(entry.target.parentElement.querySelectorAll('.project-row')).indexOf(entry.target) * 60
+                : 0;
+            setTimeout(() => entry.target.classList.add('visible'), delay);
+            observer.unobserve(entry.target);
         }
-        updateTime();
-        setInterval(updateTime, 1000);
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-        // Interactive particle field
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: null, y: null };
+revealEls.forEach(el => observer.observe(el));
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+// ── PAGE TRANSITION ──
+const overlay = document.getElementById('overlay');
+document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('http') || link.target === '_blank') return;
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        overlay.style.transition = 'transform 0.5s cubic-bezier(0.76, 0, 0.24, 1)';
+        overlay.style.transformOrigin = 'bottom';
+        overlay.style.transform = 'scaleY(1)';
+        setTimeout(() => { window.location.href = href; }, 500);
+    });
+});
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-            
-            for (let i = 0; i < 3; i++) {
-                particles.push(new Particle(mouse.x, mouse.y));
-            }
-        });
-
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
-                this.life = 100;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.life -= 2;
-                if (this.size > 0.1) this.size -= 0.05;
-            }
-
-            draw() {
-                ctx.fillStyle = `rgba(212, 165, 165, ${this.life / 100})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-                
-                if (particles[i].life <= 0) {
-                    particles.splice(i, 1);
-                    i--;
-                }
-            }
-            
-            requestAnimationFrame(animateParticles);
-        }
-
-        animateParticles();
-
-        // Name hover effect - split and animate letters
-        const nameEl = document.getElementById('name');
-        const nameText = nameEl.textContent;
-        nameEl.innerHTML = nameText.split('').map(char => 
-            char === ' ' ? '<span class="space"> </span>' : 
-            `<span class="letter">${char}</span>`
-        ).join('');
-
-        const letters = nameEl.querySelectorAll('.letter');
-        
-        nameEl.addEventListener('mouseenter', () => {
-            letters.forEach((letter, i) => {
-                setTimeout(() => {
-                    letter.style.transform = `translateY(-10px)`;
-                }, i * 30);
-                setTimeout(() => {
-                    letter.style.transform = `translateY(0)`;
-                }, i * 30 + 200);
-            });
-        });
-    </script>
+// Reverse on load
+window.addEventListener('pageshow', () => {
+    overlay.style.transition = 'none';
+    overlay.style.transform = 'scaleY(1)';
+    overlay.style.transformOrigin = 'top';
+    requestAnimationFrame(() => {
+        overlay.style.transition = 'transform 0.6s cubic-bezier(0.76, 0, 0.24, 1)';
+        overlay.style.transform = 'scaleY(0)';
+    });
+});
+</script>
 </body>
 </html>

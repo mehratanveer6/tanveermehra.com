@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Tanveer Mehra</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="cur" id="curDot"><div class="cur-dot"></div></div>
+<div class="cur" id="curRing"><div class="cur-ring" id="ringEl"></div></div>
+<div class="page-overlay" id="overlay"></div>
+
+<nav>
+    <a href="./index.html" class="logo">tm.</a>
+    <div class="nav-right">
+        <ul class="nav-links">
+            <li><a href="./projects.html">Work</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./contact.html" class="active">Contact</a></li>
+        </ul>
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            <span id="localTime">—</span>
+        </div>
+    </div>
+</nav>
+
+<div class="page-hero">
+    <p class="page-eyebrow">[ 04 ] Get In Touch</p>
+    <h1 class="page-title">Let's<br><em>Connect.</em></h1>
+    <p class="page-desc">Have a project in mind? Want to collaborate? Or just want to chat about tech? I'm always open.</p>
+</div>
+
+<section class="contact-section">
+    <div class="contact-grid">
+        <div class="reveal">
+            <p class="contact-label">Direct Links</p>
+            <h2 class="contact-big">Find me wherever you prefer.</h2>
+            <div class="contact-links">
+                <a href="mailto:tanmehra7@gmail.com">
+                    <span>Email</span>
+                    tanmehra7@gmail.com
+                </a>
+                <a href="https://github.com/mehratanveer6" target="_blank">
+                    <span>GitHub</span>
+                    mehratanveer6
+                </a>
+                <a href="https://linkedin.com/in/mehratanveer/" target="_blank">
+                    <span>LinkedIn</span>
+                    mehratanveer
+                </a>
+                <a href="https://x.com/mehratanveer6" target="_blank">
+                    <span>X / Twitter</span>
+                    @mehratanveer6
+                </a>
+                <a href="#" style="border-bottom: none; padding-bottom: 0;">
+                    <span>Location</span>
+                    Chandigarh, India
+                </a>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <p class="contact-label">Newsletter</p>
+            <div class="newsletter-box">
+                <h3>Stay in the loop.</h3>
+                <p>Occasional updates on work, thoughts on tech, and interesting discoveries. No spam — only quality.</p>
+                <form class="email-form" onsubmit="handleSub(event)">
+                    <input type="email" id="emailInput" placeholder="your@email.com" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+                <p style="font-family:'DM Mono',monospace;font-size:11px;color:#333;margin-top:12px;" id="subMsg"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Writing -->
+    <div class="reveal" style="margin-top: 80px;">
+        <p class="contact-label" style="margin-bottom: 32px;">Recent Writing</p>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-number">January 15, 2026</div>
+                <h3 class="card-title">On Building in Public</h3>
+                <p class="card-description">Thoughts on vulnerability, authenticity, and why sharing your work matters more than you think.</p>
+            </div>
+            <div class="card">
+                <div class="card-number">December 28, 2025</div>
+                <h3 class="card-title">The Year in Review</h3>
+                <p class="card-description">Reflections on growth, failures, and unexpected discoveries from 2025.</p>
+            </div>
+            <div class="card">
+                <div class="card-number">November 10, 2025</div>
+                <h3 class="card-title">Creativity in Constraints</h3>
+                <p class="card-description">Why limitations often lead to the most innovative solutions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div>
+        <p class="footer-big"><a href="mailto:tanmehra7@gmail.com">tanmehra7@gmail.com →</a></p>
+        <div class="footer-links-row">
+            <a href="https://github.com/mehratanveer6" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/mehratanveer/" target="_blank">LinkedIn</a>
+            <a href="https://x.com/mehratanveer6" target="_blank">X</a>
+        </div>
+    </div>
+    <div>
+        <p class="footer-meta">Tanveer Mehra<br>© 2026<br>Chandigarh, IN</p>
+    </div>
+</footer>
+
+<script>
+(function() {
+    const dot=document.getElementById('curDot'),ring=document.getElementById('curRing'),ringEl=document.getElementById('ringEl');
+    let mx=0,my=0,dx=0,dy=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    function tick(){dx+=(mx-dx)*0.35;dy+=(my-dy)*0.35;rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;dot.style.left=dx+'px';dot.style.top=dy+'px';ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);}
+    tick();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>ringEl.classList.add('hovered'));el.addEventListener('mouseleave',()=>ringEl.classList.remove('hovered'));});
+})();
+
+function updateTime(){const el=document.getElementById('localTime');if(el)el.textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Kolkata'})+' IST';}
+updateTime();setInterval(updateTime,10000);
+
+function handleSub(e){e.preventDefault();const msg=document.getElementById('subMsg');const input=document.getElementById('emailInput');msg.textContent='✓ You\'re subscribed.';input.value='';setTimeout(()=>msg.textContent='',3000);}
+
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const overlay=document.getElementById('overlay');
+document.querySelectorAll('a[href]').forEach(link=>{const href=link.getAttribute('href');if(!href||href.startsWith('#')||href.startsWith('mailto')||href.startsWith('http')||link.target==='_blank')return;link.addEventListener('click',e=>{e.preventDefault();overlay.style.transition='transform 0.5s cubic-bezier(0.76,0,0.24,1)';overlay.style.transformOrigin='bottom';overlay.style.transform='scaleY(1)';setTimeout(()=>{window.location.href=href;},500);});});
+window.addEventListener('pageshow',()=>{overlay.style.transition='none';overlay.style.transform='scaleY(1)';overlay.style.transformOrigin='top';requestAnimationFrame(()=>{overlay.style.transition='transform 0.6s cubic-bezier(0.76,0,0.24,1)';overlay.style.transform='scaleY(0)';});});
+</script>
+</body>
+</html>
