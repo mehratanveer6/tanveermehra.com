@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/*
+  Design tokens for /work — the site that opens after "Take me to Bateman".
+  Deliberately separate from the intro/card's --card-* tokens (see the root
+  globals.css comment: that system intentionally has its own palette for its
+  own cinematic moment). This is the calmer, quieter arrival after it:
+  strict monochrome, no accent color, hierarchy from type and space alone.
+
+  All names here are new — nothing overrides an existing Tailwind default
+  or an existing --card-* variable, so the untouched intro/card page is
+  unaffected by this file.
+*/
+@theme {
+  --color-ink: #0a0a0a;
+  --color-paper: #f2f1ee;
+  --color-mist: #8a8a85;
+  --color-hairline: #212121;
+  --color-ghost: #161616;
+
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.work-root {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.work-root ::selection {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.work-root a:focus-visible,
+.work-root button:focus-visible {
+  outline: 1px solid var(--color-paper);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-root *,
+  .work-root *::before,
+  .work-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
